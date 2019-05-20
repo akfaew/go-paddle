@@ -1,0 +1,6 @@
+*.swp
+.tags
+callvis.png
+callvis.dot
+coverage.out
+coverage.html

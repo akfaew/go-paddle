@@ -4,12 +4,15 @@ import (
 	"context"
 )
 
+// https://paddle.com/docs/api-list-users/
 type SubscriptionUser struct {
 	SubscriptionID   int     `json:"subscription_id"`
 	PlanID           int     `json:"plan_id"`
 	UserID           int     `json:"user_id"`
 	UserEmail        string  `json:"user_email"`
 	MarketingConsent bool    `json:"marketing_consent"`
+	UpdateURL        string  `json:"update_url"`
+	CancelURL        string  `json:"cancel_url"`
 	State            string  `json:"state"`
 	SignupDate       string  `json:"signup_date"`
 	LastPayment      Payment `json:"last_payment"`

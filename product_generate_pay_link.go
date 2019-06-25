@@ -51,7 +51,7 @@ func (s *ProductService) GeneratePayLink(ctx context.Context, options *ProductGe
 		return nil, err
 	}
 
-	req, err := s.client.NewRequest("GET", u, nil)
+	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, err
 	}

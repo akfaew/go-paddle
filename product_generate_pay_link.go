@@ -61,3 +61,22 @@ func (s *ProductService) GeneratePayLink(ctx context.Context, options *ProductGe
 
 	return paylink, err
 }
+
+func (s *ProductService) GeneratePayLinkCustom(ctx context.Context, options *ProductGeneratePayLinkOptions) (*ProductPayLinkResponse, error) {
+	options.VendorID = s.client.conf.VendorID
+	options.VendorAuthCode = s.client.conf.APIKey
+	u, err := addOptions("product/generate_pay_link", options)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := s.client.NewRequest("POST", u, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	paylink := new(ProductPayLinkResponse)
+	_, err = s.client.Do(ctx, req, paylink)
+
+	return paylink, err
+}

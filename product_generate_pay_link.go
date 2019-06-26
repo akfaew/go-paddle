@@ -23,7 +23,7 @@ type ProductGeneratePayLinkOptions struct {
 	WebhookURL              string   `url:"webhook_url,omitempty"`
 	Prices                  []string `url:"prices,brackets,omitempty"`
 	Locale                  string   `url:"locale,omitempty"`
-	RecurringPrices         string   `url:"recurring_prices,omitempty"`
+	RecurringPrices         []string `url:"recurring_prices,omitempty"`
 	TrialDays               int      `url:"trial_days,omitempty"`
 	CustomMessage           string   `url:"custom_message,omitempty"`
 	CouponCode              string   `url:"coupon_code,omitempty"`

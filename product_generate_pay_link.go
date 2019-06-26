@@ -2,6 +2,8 @@ package paddle
 
 import (
 	"context"
+
+	. "github.com/akfaew/aeutils"
 )
 
 type ProductPayLink struct {
@@ -70,6 +72,7 @@ func (s *ProductService) GeneratePayLinkCustom(ctx context.Context, options *Pro
 		return nil, err
 	}
 
+	LogDebugfd(ctx, ">>>>>>>>>>>>>>>>%+v<<<<<<<<<<<<<<<<<", u)
 	req, err := s.client.NewRequest("POST", u, nil)
 	if err != nil {
 		return nil, err

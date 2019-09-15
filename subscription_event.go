@@ -15,7 +15,7 @@ import (
 // https://developer.paddle.com/webhook-reference/product-fulfillment/fulfillment-webhook
 type FulfillmentWebhook struct {
 	EventTime   string `json:"event_time"`
-	Quantity    int    `json:"quantity"`
+	Quantity    string `json:"quantity"`
 	Passthrough string `json:"passthrough"`
 }
 

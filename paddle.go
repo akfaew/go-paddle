@@ -194,7 +194,7 @@ func (c *Client) Do(ctx context.Context, req *http.Request, v interface{}) (*htt
 
 	if v != nil {
 		if err := json.Unmarshal(data, v); err != nil {
-			return resp, err
+			return resp, fmt.Errorf("err=%v, data=%v", err, string(data))
 		}
 	}
 

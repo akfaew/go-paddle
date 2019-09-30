@@ -11,8 +11,7 @@ import (
 func TestPrices(t *testing.T) {
 	t.Skip("Provide your own data")
 
-	conf := Conf{}
-	client := conf.NewCheckoutClient(context.Background(), &http.Client{})
+	client := NewCheckoutClient(context.Background(), &http.Client{})
 	res, err := client.Subscription.Prices(context.Background(), SubscriptionPricesOptions{
 		CustomerCountry: "PL",
 		ProductIDs:      "1234,2345",

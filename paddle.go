@@ -95,11 +95,10 @@ func (conf *Conf) NewClient(ctx context.Context, client *http.Client) *Client {
 	return c
 }
 
-func (conf *Conf) NewCheckoutClient(ctx context.Context, client *http.Client) *Client {
+func NewCheckoutClient(ctx context.Context, client *http.Client) *Client {
 	baseURL, _ := url.Parse(checkoutBaseURL)
 	c := &Client{
 		client:  client,
-		conf:    conf,
 		baseURL: baseURL,
 	}
 	s := &service{client: c}

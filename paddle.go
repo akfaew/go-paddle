@@ -7,6 +7,7 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -18,7 +19,9 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
+// Why there are two separate APIs I do not know
 var defaultBaseURL = "https://vendors.paddle.com/api/2.0/"
+var checkoutBaseURL = "https://checkout.paddle.com/api/2.0/"
 
 type Conf struct {
 	VendorID int
@@ -79,6 +82,21 @@ type service struct {
 
 func (conf *Conf) NewClient(ctx context.Context, client *http.Client) *Client {
 	baseURL, _ := url.Parse(defaultBaseURL)
+	c := &Client{
+		client:  client,
+		conf:    conf,
+		baseURL: baseURL,
+	}
+	s := &service{client: c}
+
+	c.Subscription = (*SubscriptionService)(s)
+	c.Product = (*ProductService)(s)
+
+	return c
+}
+
+func (conf *Conf) NewCheckoutClient(ctx context.Context, client *http.Client) *Client {
+	baseURL, _ := url.Parse(checkoutBaseURL)
 	c := &Client{
 		client:  client,
 		conf:    conf,
@@ -216,7 +234,7 @@ type ErrorResponse struct {
 	ErrorField Error `json:"error"`
 }
 
-func (r *ErrorResponse) Error() string {
+func (r ErrorResponse) Error() string {
 	return fmt.Sprintf("%v %v: StatusCode: %d Code: %d Message: \"%v\" Success: %v)",
 		r.response.Request.Method, r.response.Request.URL,
 		r.response.StatusCode, r.ErrorField.Code, r.ErrorField.Message, r.Success)
@@ -233,7 +251,11 @@ func checkError(r *http.Response, data []byte) error {
 	}
 
 	if !errorResponse.Success {
-		return errorResponse
+		switch errorResponse.ErrorField.Message {
+		case ErrCountryDoesNotExist.Error():
+			return ErrCountryDoesNotExist
+		}
+		return errors.New(errorResponse.ErrorField.Message)
 	}
 
 	return nil

@@ -32,7 +32,7 @@ type ProductGeneratePayLinkOptions struct {
 	QuantityVariable        int      `url:"quantity_variable,omitempty"`
 	Quantity                int      `url:"quantity,omitempty"`
 	Expires                 string   `url:"expires,omitempty"`
-	Affiliates              []string `url:"affiliates,omitempty"`
+	Affiliates              []string `url:"affiliates,brackets,omitempty"`
 	RecurringAffiliateLimit int      `url:"recurring_affiliate_limit,omitempty"`
 	MarketingConsent        int      `url:"marketing_consent,omitempty"`
 	CustomerEmail           string   `url:"customer_email,omitempty"`

@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"time"
 )
 
 // https://developer.paddle.com/webhook-reference/product-fulfillment/fulfillment-webhook
@@ -52,6 +53,16 @@ type SubscriptionCancelled struct {
 	UnitPrice                 string `json:"unit_price"`
 	EventTime                 string `json:"event_time"`
 	Currency                  string `json:"currency"`
+}
+
+func (s *SubscriptionCancelled) GetCancellationEffectiveDate() time.Time {
+	var year, month, day int
+	_, err := fmt.Sscanf(s.CancellationEffectiveDate, "%d-%d-%d", &year, &month, &day)
+	if err != nil {
+		return time.Time{}
+	}
+
+	return time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC)
 }
 
 // https://paddle.com/docs/subscriptions-event-reference/#subscription_payment_succeeded

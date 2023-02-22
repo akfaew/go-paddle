@@ -24,12 +24,16 @@ type SubscriptionUsersResponse struct {
 	Response []SubscriptionUser `json:"response"`
 }
 
+// https://developer.paddle.com/api-reference/e33e0a714a05d-list-users
 type SubscriptionUsersOptions struct {
 	VendorID       int    `url:"vendor_id"`
 	VendorAuthCode string `url:"vendor_auth_code"`
 
 	SubscriptionID string `url:"subscription_id,omitempty"`
-	Plan           string `url:"plan,omitempty"`
+	PlanID         string `url:"plan_id,omitempty"`
+	State          string `url:"state,omitempty"`
+	ResultsPerPage string `url:"results_per_page,omitempty"` // max 200
+	Page           string `url:"page,omitempty"`
 }
 
 func (s *SubscriptionService) Users(ctx context.Context, options *SubscriptionUsersOptions) (*SubscriptionUsersResponse, error) {

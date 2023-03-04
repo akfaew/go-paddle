@@ -30,6 +30,7 @@ type SubscriptionCreated struct {
 	NextBillDate       string `json:"next_bill_date"`
 	Passthrough        string `json:"passthrough"`
 	UpdateURL          string `json:"update_url"`
+	UserID             string `json:"user_id"`
 	CancelURL          string `json:"cancel_url"`
 	Currency           string `json:"currency"`
 	CheckoutID         string `json:"checkout_id"`

@@ -83,6 +83,60 @@ type SubscriptionPaymentSucceeded struct {
 	UserID             string `json:"user_id"`
 }
 
+type SubscriptionUpdated struct {
+	AlertID               string `json:"alert_id"`
+	AlertName             string `json:"alert_name"`
+	CancelURL             string `json:"cancel_url"`
+	CheckoutID            string `json:"checkout_id"`
+	Currency              string `json:"currency"`
+	CustomDate            string `json:"custom_date"`
+	EventTime             string `json:"event_time"`
+	MarketingConsent      string `json:"marketing_consent"`
+	NewPrice              string `json:"new_price"`
+	NewQuantity           string `json:"new_quantity"`
+	NewUnitPrice          string `json:"new_unit_price"`
+	NewBillDate           string `json:"new_bill_date"`
+	OldNextBillDate       string `json:"old_next_bill_date"`
+	OldPrice              string `json:"old_price"`
+	OldQuantity           string `json:"old_quantity"`
+	OldStatus             string `json:"old_status"`
+	OldSubscriptionPlanID string `json:"old_subscription_plan_id"`
+	OldUnitPrice          string `json:"old_unit_price"`
+	Status                string `json:"status"`
+	SubscriptionID        string `json:"subscription_id"`
+	SubscriptionPlanID    string `json:"subscription_plan_id"`
+	UpdateURL             string `json:"update_url"`
+	UserID                string `json:"user_id"`
+	PausedAt              string `json:"paused_at"`
+	PausedFrom            string `json:"paused_from"`
+	PausedReason          string `json:"paused_reason"`
+}
+
+type SubscriptionPaymentFailed struct {
+	AlertID               string `json:"alert_id"`
+	AlertName             string `json:"alert_name"`
+	Amount                string `json:"amount"`
+	AttemptNumber         string `json:"attempt_number"`
+	CancelURL             string `json:"cancel_url"`
+	CheckoutID            string `json:"checkout_id"`
+	Currency              string `json:"currency"`
+	CustomData            string `json:"custom_data"`
+	Email                 string `json:"email"`
+	EventTime             string `json:"event_time"`
+	Instalments           string `json:"instalments"`
+	MarketingConsent      string `json:"marketing_consent"`
+	NextRetryDate         string `json:"next_retry_date"`
+	OrderID               string `json:"order_id"`
+	UserID                string `json:"user_id"`
+	Quantity              string `json:"quantity"`
+	Status                string `json:"status"`
+	SubscriptionID        string `json:"subscription_id"`
+	SubscriptionPaymentID string `json:"subscription_payment_id"`
+	SubscriptionPlanID    string `json:"subscription_plan_id"`
+	UnitPrice             string `json:"unit_price"`
+	UpdateURL             string `json:"update_url"`
+}
+
 func phpserialize(form url.Values) []byte {
 	var keys []string
 	for k := range form {
@@ -149,6 +203,26 @@ func ValidatePayload(r *http.Request, pubkey *rsa.PublicKey) (interface{}, error
 		return &ret, nil
 	case "subscription_payment_succeeded":
 		var ret SubscriptionPaymentSucceeded
+		if j, err := json.Marshal(payload); err != nil {
+			return nil, err
+		} else {
+			if err := json.Unmarshal(j, &ret); err != nil {
+				return nil, err
+			}
+		}
+		return &ret, nil
+	case "subscription_updated":
+		var ret SubscriptionUpdated
+		if j, err := json.Marshal(payload); err != nil {
+			return nil, err
+		} else {
+			if err := json.Unmarshal(j, &ret); err != nil {
+				return nil, err
+			}
+		}
+		return &ret, nil
+	case "subscription_payment_failed":
+		var ret SubscriptionPaymentFailed
 		if j, err := json.Marshal(payload); err != nil {
 			return nil, err
 		} else {

@@ -5,7 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/akfaew/test"
+	"github.com/akfaew/utils/fixture"
+	"github.com/stretchr/testify/require"
 )
 
 func TestPrices(t *testing.T) {
@@ -16,6 +17,6 @@ func TestPrices(t *testing.T) {
 		CustomerCountry: "PL",
 		ProductIDs:      "1234,2345",
 	})
-	test.NoError(t, err)
-	test.Fixture(t, res)
+	require.NoError(t, err)
+	fixture.Fixture(t, res)
 }
